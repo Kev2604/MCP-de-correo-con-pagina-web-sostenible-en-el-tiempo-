@@ -7,10 +7,10 @@
         "--rm",
         "-i",
         "--env-file",
-        "C:/Users/KFsil/OneDrive/Desktop/mcp-correo/.env",
+        "C:/Users/.env",
         "mcp-correo:latest"
       ],
-      "cwd": "C:/Users/KFsil/OneDrive/Desktop/mcp-correo"
+      "cwd": "C:/mcp-correo"
     }
   }
 }
