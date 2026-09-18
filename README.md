@@ -72,10 +72,10 @@ Puedes usar el archivo [vscode-mcp.json](vscode-mcp.json) como referencia o copi
         "--rm",
         "-i",
         "--env-file",
-        "C:/Users/KFsil/OneDrive/Desktop/mcp-correo/.env",
+        "C:/Users/.env",
         "mcp-correo:latest"
       ],
-      "cwd": "C:/Users/KFsil/OneDrive/Desktop/mcp-correo"
+      "cwd": "C:/Users/mcp-correo"
     }
   }
 }
@@ -95,10 +95,10 @@ En la configuración de Claude Desktop, usa este bloque:
         "--rm",
         "-i",
         "--env-file",
-        "C:/Users/KFsil/OneDrive/Desktop/mcp-correo/.env",
+        "C:/Users/.env",
         "mcp-correo:latest"
       ],
-      "cwd": "C:/Users/KFsil/OneDrive/Desktop/mcp-correo"
+      "cwd": "C:Desktop/mcp-correo"
     }
   }
 }
