@@ -1,0 +1,16 @@
+[project]
+name = "mcp-correo"
+version = "0.2.0"
+description = "Servidor MCP robusto para envío de correos con validación y seguridad"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true

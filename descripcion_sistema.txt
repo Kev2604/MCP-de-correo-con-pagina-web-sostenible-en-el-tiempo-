@@ -1,0 +1,104 @@
+SISTEMA DE ENVIO DE CORREOS MCP + INTERFAZ WEB
+
+------------------------------------------------------------
+1. QUE HACE EL SISTEMA
+------------------------------------------------------------
+Este proyecto permite enviar correos electrónicos de forma automatizada mediante un servidor MCP (Model Context Protocol) y también ofrece una interfaz web local para gestionar el envío de correos, usuarios, sesiones, logs y configuraciones SMTP.
+
+Funciones principales:
+- Enviar correos por SMTP a cualquier destinatario.
+- Permitir enviar correos con texto plano y/o contenido HTML.
+- Adjuntar archivos al correo.
+- Registrar eventos, errores y correos enviados en una base de datos local.
+- Gestionar usuarios con login, registro, recuperación de contraseña y roles (admin/user).
+- Permitir a un administrador configurar los datos del servidor SMTP.
+- Exponer una herramienta MCP llamada enviar_correo para uso con clientes compatibles.
+
+------------------------------------------------------------
+2. ARCHIVOS PRINCIPALES
+------------------------------------------------------------
+- servidor_correo.py: implementa la lógica de envío de correos mediante SMTP y expone la herramienta MCP.
+- interfaz_web.py: crea la aplicación web con FastAPI y las rutas para login, dashboard, administración y envío de correos.
+- database.py: gestiona la base de datos SQLite, usuarios, sesiones, logs, correos enviados y configuración SMTP.
+- api.py: archivo preparado para la API del servidor MCP, aunque en este proyecto está vacío.
+- templates/: contiene las plantillas HTML de login, registro, dashboard, administración y recuperación.
+- requirements.txt: lista las librerías necesarias para ejecutar el sistema.
+
+------------------------------------------------------------
+3. LIBRERIAS Y DEPENDENCIAS
+------------------------------------------------------------
+Librerías principales:
+- mcp: permite exponer herramientas compatibles con el protocolo MCP.
+- python-dotenv: carga variables de entorno desde un archivo .env.
+- fastapi: framework para crear la interfaz web y las rutas HTTP.
+- uvicorn[standard]: servidor ASGI para ejecutar FastAPI.
+- jinja2: motor de plantillas para renderizar HTML.
+- python-multipart: soporte para subir archivos desde formularios web.
+- pytest: framework para pruebas automatizadas.
+- playwright y pytest-playwright: pruebas de interfaz web y automatización de navegador.
+
+Además, el sistema usa módulos nativos de Python como:
+- smtplib: para enviar correos por SMTP.
+- email.message: para construir los mensajes de correo.
+- sqlite3: para la base de datos local.
+- os, pathlib, logging, hashlib, secrets, base64: para configuración, seguridad y almacenamiento local.
+
+------------------------------------------------------------
+4. COMO FUNCIONA
+------------------------------------------------------------
+Funcionamiento general:
+1. El sistema carga configuraciones desde variables de entorno como SMTP_HOST, SMTP_PORT, SMTP_USER y SMTP_PASSWORD.
+2. Al iniciar, se crea o inicializa una base de datos SQLite llamada app.db.
+3. Se crea un usuario administrador por defecto con credenciales:
+   - usuario: admin
+   - contraseña: admin123
+4. Cuando un usuario entra a la interfaz web, puede iniciar sesión o registrarse.
+5. Después de iniciar sesión, puede:
+   - enviar un correo desde el dashboard,
+   - adjuntar archivos,
+   - revisar logs y correos enviados,
+   - administrar usuarios si tiene permisos de administrador.
+6. El envío de correos se realiza llamando a la función enviar_correo_impl, que:
+   - valida el correo destinatario,
+   - arma el mensaje,
+   - agrega contenido HTML si existe,
+   - adjunta archivos si se enviaron,
+   - se conecta al servidor SMTP y envía el mensaje.
+7. Cada operación queda registrada en la base de datos para auditoría.
+8. El sistema también expone una herramienta MCP llamada enviar_correo, que puede ser llamada por clientes compatibles como VS Code o Claude Desktop.
+
+------------------------------------------------------------
+5. FLUJO BASICO DE ENVIO DE CORREO
+------------------------------------------------------------
+- El usuario llena destinatario, asunto, cuerpo y opcionalmente un HTML.
+- Sube archivos si desea adjuntarlos.
+- La app guarda los archivos en la carpeta uploads.
+- La app llama a la función de envío SMTP.
+- El correo se envía al servidor SMTP configurado.
+- Se guarda un registro del evento y del correo enviado.
+
+------------------------------------------------------------
+6. CARACTERISTICAS DESTACADAS
+------------------------------------------------------------
+- Funciona de forma local.
+- Usa SQLite, por lo que no requiere un servidor de base de datos externo.
+- Permite manejar autenticación simple con sesiones temporales.
+- Mantiene historial de eventos y correos enviados.
+- Soporta envío con TLS/SSL según la configuración.
+- Puede usarse tanto desde navegador como desde un cliente MCP.
+
+------------------------------------------------------------
+7. COMO SE EJECUTA
+------------------------------------------------------------
+Para la interfaz web:
+- Ejecutar interfaz_web.py
+- Abrir la URL local indicada por Uvicorn, normalmente http://127.0.0.1:8020
+
+Para el servidor MCP:
+- Ejecutar servidor_correo.py
+- O usar Docker con la configuración indicada en los archivos README.
+
+------------------------------------------------------------
+8. RESUMEN BREVE
+------------------------------------------------------------
+Este sistema es una solución local para enviar correos electrónicos con funciones de administración, registro de actividad y soporte para herramientas MCP. Combina Python, FastAPI, SQLite y SMTP para ofrecer una herramienta práctica tanto para usuarios humanos como para clientes automáticos.

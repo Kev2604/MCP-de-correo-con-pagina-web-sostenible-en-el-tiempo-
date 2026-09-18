@@ -1,0 +1,34 @@
+
+Running 4 tests using 1 worker
+
+  ✓  1 tests\playwright\app.spec.js:61:1 › admin can login and see dashboard (1.0s)
+  ✓  2 tests\playwright\app.spec.js:72:1 › admin can create and edit a user (1.4s)
+  ✘  3 tests\playwright\app.spec.js:93:1 › admin can navigate to logs and SMTP settings (1.0m)
+  ✓  4 tests\playwright\app.spec.js:109:1 › dashboard controls are interactive (1.4s)
+
+
+  1) tests\playwright\app.spec.js:93:1 › admin can navigate to logs and SMTP settings ──────────────
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: 'Logs' })
+
+
+       97 |   await page.locator('button[type="submit"]').click();
+       98 |
+    >  99 |   await page.getByRole('link', { name: 'Logs' }).click();
+          |                                                  ^
+      100 |   await expect(page).toHaveURL(/\/logs/);
+      101 |   await expect(page.getByRole('heading', { name: 'Registro de actividad' })).toBeVisible();
+      102 |
+        at C:\Users\KFsil\OneDrive\Desktop\mcp-correo\tests\playwright\app.spec.js:99:50
+
+    Error Context: test-results\app-admin-can-navigate-to-logs-and-SMTP-settings\error-context.md
+
+    Error Context: test-results\app-admin-can-navigate-to-logs-and-SMTP-settings\error-context.md
+
+  1 failed
+    tests\playwright\app.spec.js:93:1 › admin can navigate to logs and SMTP settings ───────────────
+  3 passed (1.3m)

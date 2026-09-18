@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "correo-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--env-file",
+        "C:/Users/KFsil/OneDrive/Desktop/mcp-correo/.env",
+        "mcp-correo:latest"
+      ],
+      "cwd": "C:/Users/KFsil/OneDrive/Desktop/mcp-correo"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+FROM python:3.12-slim
+
+# No buffer en salida y evitar cache pip
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+# Instalar herramientas del sistema necesarias (compilación y utilidades)
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends build-essential ca-certificates curl \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Crear un usuario no-root
+RUN adduser --disabled-password --gecos "" app || true
+
+# Copiar dependencias e instalarlas (mejor usar requirements.txt)
+COPY requirements.txt ./
+RUN python -m pip install --upgrade pip \
+	&& pip install --no-cache-dir -r requirements.txt
+
+# Copiar el resto del código
+COPY --chown=app:app . .
+
+# Este servicio usa MCP sobre stdio; no expone un puerto HTTP
+# Ejecútalo con: docker run --rm -i --env-file .env mcp-correo:latest
+
+# Ejecutar como usuario no-root
+USER app
+
+# Ejecutar el módulo que contiene el servidor MCP
+CMD ["python", "-m", "servidor_correo"]

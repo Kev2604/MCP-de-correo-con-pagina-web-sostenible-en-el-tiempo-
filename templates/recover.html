@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar contraseña</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: #111827; padding: 30px; border-radius: 12px; width: 360px; }
+    input { width: 100%; padding: 10px; margin-top: 8px; border-radius: 8px; border: 1px solid #334155; background: #1f2937; color: white; }
+    button { margin-top: 16px; width: 100%; padding: 10px; background: #f59e0b; color: white; border: none; border-radius: 8px; cursor: pointer; }
+    .error { color: #f87171; margin-top: 10px; }
+    .success { color: #86efac; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Restablecer contraseña</h2>
+    <form action="/recover" method="post">
+      <label>Usuario</label>
+      <input name="username" required />
+      <label>Nueva contraseña</label>
+      <input name="new_password" type="password" required />
+      <button type="submit">Actualizar</button>
+    </form>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    {% if success %}<div class="success">{{ success }}</div>{% endif %}
+    <p><a href="/" style="color:#93c5fd;">Volver</a></p>
+  </div>
+</body>
+</html>

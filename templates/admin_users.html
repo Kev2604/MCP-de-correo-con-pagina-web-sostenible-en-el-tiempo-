@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrar usuarios</title>
+  <style>
+    body { font-family: Inter, Arial, sans-serif; background: linear-gradient(135deg, #f8fafc, #eef2ff); color: #0f172a; margin: 0; padding: 24px; }
+    .card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 10px 25px rgba(15,23,42,0.08); margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    input, select { width: 100%; padding: 10px; margin-top: 6px; border-radius: 10px; border: 1px solid #cbd5e1; box-sizing: border-box; }
+    button { margin-top: 10px; padding: 10px 14px; background: linear-gradient(90deg, #2563eb, #4f46e5); color: white; border: none; border-radius: 10px; cursor: pointer; }
+    .danger { background: linear-gradient(90deg, #dc2626, #b91c1c); }
+    .error { color: #dc2626; margin-top: 8px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <h2>Administración de usuarios</h2>
+        <p>Bienvenido, <strong>{{ user.username }}</strong> ({{ user.role }})</p>
+      </div>
+      <p><a href="/dashboard">Volver al dashboard</a></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Crear usuario</h3>
+    <form action="/admin/users" method="post">
+      <input name="username" placeholder="Usuario" required />
+      <input name="password" type="password" placeholder="Contraseña" required />
+      <select name="role">
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+      <button type="submit">Crear</button>
+    </form>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  </div>
+
+  <div class="card">
+    <h3>Usuarios actuales</h3>
+    <table>
+      <tr><th>ID</th><th>Usuario</th><th>Rol</th><th>Creado</th><th>Acciones</th></tr>
+      {% for u in users %}
+      <tr>
+        <td>{{ u.id }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.role }}</td>
+        <td>{{ u.created_at }}</td>
+        <td>
+          <form action="/admin/users/update" method="post" style="display:flex; gap:8px; align-items:center;">
+            <input type="hidden" name="user_id" value="{{ u.id }}" />
+            <input name="username" value="{{ u.username }}" required />
+            <select name="role">
+              <option value="user" {% if u.role == 'user' %}selected{% endif %}>Usuario</option>
+              <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>Administrador</option>
+            </select>
+            <input name="password" type="password" placeholder="Nueva contraseña" />
+            <button type="submit">Guardar</button>
+          </form>
+          <form action="/admin/users/delete" method="post" style="margin-top:8px;">
+            <input type="hidden" name="user_id" value="{{ u.id }}" />
+            <button class="danger" type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>

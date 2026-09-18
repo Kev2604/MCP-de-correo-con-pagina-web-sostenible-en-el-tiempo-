@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Correo MCP</title>
+  <style>
+    body { font-family: Inter, Arial, sans-serif; background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: rgba(17,24,39,0.95); padding: 32px; border-radius: 16px; width: 390px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+    h2 { margin-top: 0; margin-bottom: 8px; }
+    p { color: #94a3b8; }
+    input { width: 100%; padding: 12px; margin-top: 8px; border-radius: 10px; border: 1px solid #334155; background: #1f2937; color: white; box-sizing: border-box; }
+    button { margin-top: 16px; width: 100%; padding: 12px; background: linear-gradient(90deg, #2563eb, #4f46e5); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+    .links { margin-top: 12px; display: flex; justify-content: space-between; font-size: 0.95rem; }
+    .links a { color: #93c5fd; text-decoration: none; }
+    .error { margin-top: 10px; color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Acceso al sistema</h2>
+    <p>Gestión de correos y observabilidad</p>
+    <form action="/login" method="post">
+      <label>Usuario</label>
+      <input name="username" required />
+      <label>Contraseña</label>
+      <input name="password" type="password" required />
+      <button type="submit">Entrar</button>
+    </form>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    <div class="links">
+      <a href="/register">Crear cuenta</a>
+      <a href="/recover">Recuperar contraseña</a>
+    </div>
+  </div>
+</body>
+</html>

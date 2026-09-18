@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logs | Correo MCP</title>
+  <style>
+    :root { --ink: #18212f; --muted: #687386; --line: #dce3ea; --paper: #f4f7f6; --panel: #ffffff; --accent: #007f73; --accent-soft: #d9f2ed; }
+    * { box-sizing: border-box; }
+    body { font-family: Inter, Arial, sans-serif; background: var(--paper); color: var(--ink); margin: 0; padding: 28px; }
+    .shell { max-width: 1180px; margin: 0 auto; }
+    .topbar, .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin-bottom: 18px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+    h1 { margin: 0 0 5px; font-size: 1.8rem; }
+    p { color: var(--muted); margin: 0; }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    nav a { color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; text-decoration: none; font-weight: 600; }
+    nav a.active, nav a:hover { background: var(--accent-soft); border-color: #9fd9ce; color: #00675e; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: 13px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
+    .badge { display: inline-block; border-radius: 999px; padding: 4px 9px; background: var(--accent-soft); color: #00675e; font-size: .8rem; font-weight: 700; }
+    .empty { padding: 32px 0; color: var(--muted); text-align: center; }
+    @media (max-width: 700px) { body { padding: 14px; } .topbar { align-items: flex-start; flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><h1>Registro de actividad</h1><p>Últimos eventos del sistema para {{ user.username }}.</p></div>
+      <nav aria-label="Navegación principal">
+        <a href="/dashboard">Panel</a>
+        <a class="active" href="/logs">Logs</a>
+        {% if user.role == 'admin' %}<a href="/smtp-settings">Configuración</a><a href="/admin/users">Usuarios</a>{% endif %}
+        <a href="/logout">Salir</a>
+      </nav>
+    </header>
+    <section class="panel">
+      <div class="table-wrap">
+        {% if logs %}
+        <table>
+          <thead><tr><th>Fecha</th><th>Nivel</th><th>Mensaje</th><th>Fuente</th><th>Estado</th><th>Usuario</th></tr></thead>
+          <tbody>
+          {% for log in logs %}
+          <tr><td>{{ log.created_at }}</td><td><span class="badge">{{ log.level }}</span></td><td>{{ log.message }}</td><td>{{ log.source }}</td><td>{{ log.status }}</td><td>{{ log.user_name or '-' }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}<div class="empty">Todavía no hay eventos registrados.</div>{% endif %}
+      </div>
+    </section>
+  </main>
+</body>
+</html>
